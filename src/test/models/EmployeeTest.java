@@ -1,9 +1,10 @@
 package src.test.models;
 
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 
-import src.main.com.fooddelivery.models.Employee;
+import com.fooddelivery.models.Employee;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 
 public class EmployeeTest {

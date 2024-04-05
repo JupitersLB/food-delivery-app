@@ -2,7 +2,7 @@ package src.test.models;
 
 import org.junit.jupiter.api.Test;
 
-import src.main.com.fooddelivery.models.Customer;
+import com.fooddelivery.models.Customer;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;

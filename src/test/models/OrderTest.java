@@ -2,10 +2,10 @@ package src.test.models;
 
 import org.junit.jupiter.api.Test;
 
-import src.main.com.fooddelivery.models.Customer;
-import src.main.com.fooddelivery.models.Employee;
-import src.main.com.fooddelivery.models.Meal;
-import src.main.com.fooddelivery.models.Order;
+import com.fooddelivery.models.Customer;
+import com.fooddelivery.models.Employee;
+import com.fooddelivery.models.Meal;
+import com.fooddelivery.models.Order;
 
 import static org.junit.jupiter.api.Assertions.*;
 
