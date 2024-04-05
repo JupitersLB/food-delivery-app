@@ -1,4 +1,4 @@
-package src.com.fooddelivery;
+package src.main.com.fooddelivery;
 
 public class App {
     public static void main(String[] args) {

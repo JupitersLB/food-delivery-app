@@ -1,4 +1,4 @@
-package src.com.fooddelivery;
+package src.main.com.fooddelivery;
 import java.util.Scanner;
 
 public class Router {
