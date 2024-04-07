@@ -98,4 +98,20 @@ public class DatabaseUtils {
 			}
 		});
   }
+
+  /**
+   * Prepares test data in the database.
+   * Clears existing data and inserts predefined rows.
+   * @param connection The database connection to use.
+   */
+  public static void prepareMealTestData(Connection connection) {
+    try (Statement statement = connection.createStatement()) {
+        // Clear existing data
+        statement.execute("DELETE FROM meals");
+        // Insert predefined test data
+        statement.execute("INSERT INTO meals (name, price) VALUES ('Margherita', 8), ('Capricciosa', 11), ('Napolitana', 9), ('Funghi', 12), ('Calzone', 10)");
+    } catch (SQLException e) {
+        System.err.println("Error preparing test data: " + e.getMessage());
+    }
+  }
 }

@@ -5,45 +5,33 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.AfterEach;
 import static org.junit.jupiter.api.Assertions.*;
 
-import com.fooddelivery.models.Meal;
-
 import com.fooddelivery.utils.DatabaseUtils;
 
 import com.fooddelivery.daos.MealDAO;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.Statement;
 
-class MealDAOTest {
+public class MealDAOTest {
 	private MealDAO mealDAO;
 	private Connection connection;
-	private Connection connection2;
 
 
 	@BeforeEach
 	void setUp() throws Exception {
 		// Use DatabaseUtils to establish a connection for testing
-		connection = DatabaseUtils.connectToDatabase();
+		DatabaseUtils.connectToDatabase();
 
-		String url = "jdbc:sqlite:data/test.db"; // Adjust based on your test DB path
-    connection2 = DriverManager.getConnection(url);
-		System.out.println("con: " + connection2);
-
-		// Ensure DatabaseUtils points to the test database
-		mealDAO = new MealDAO(connection2);
-
-		try (Statement statement = connection2.createStatement()) {
-				statement.execute("DELETE FROM meals");
-				statement.execute("INSERT INTO meals (name, price) VALUES ('Margherita', 8), ('Capricciosa', 11), ('Napolitana', 9), ('Funghi', 12), ('Calzone', 10)");
-		}
+    connection = DriverManager.getConnection("jdbc:sqlite:data/test.db");
+		DatabaseUtils.prepareMealTestData(connection);
+		mealDAO = new MealDAO(connection);
 	}
 
 	@AfterEach
 	void tearDown() throws Exception {
 		// Close connection
 		if (connection != null) {
-				connection2.close();
+				connection.close();
 		}
 	}
 

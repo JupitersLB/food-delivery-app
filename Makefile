@@ -27,7 +27,7 @@ generate-model-list:
 
 # Rule for compiling the Java application
 compile: generate-model-list
-	javac -d $(OUT_DIR) -cp $(APP_CLASSPATH) $(SRC_DIRC)/com/fooddelivery/**/*.java $(SRC_DIRC)/com/fooddelivery/utils/*.java
+	javac -d $(OUT_DIR) -cp $(APP_CLASSPATH) $(SRC_DIRC)/com/fooddelivery/**/*.java $(SRC_DIRC)/com/fooddelivery/*.java
 
 # Define the target entry for starting the application
 run: compile
@@ -41,12 +41,12 @@ run-all-tests: compile-all-tests
 	java -Ddb.name=test.db -jar $(JUNIT_JAR) --class-path $(OUT_DIR) --scan-class-path
 
 # Compile specific model and its test
-compile-test: 
-	javac -d $(OUT_DIR) -cp $(TEST_CLASSPATH) $(SRC_DIRC)/com/fooddelivery/models/$(MODEL).java src/test/models/$(TEST).java
+compile-test: generate-model-list
+	javac -d $(OUT_DIR) -cp $(TEST_CLASSPATH) $(SRC_DIRC)/com/fooddelivery/utils/*.java $(SRC_DIRC)/com/fooddelivery/daos/$(ENTITY)DAO.java $(SRC_DIRC)/com/fooddelivery/models/$(ENTITY).java ./src/test/models/$(ENTITY)Test.java ./src/test/daos/$(ENTITY)DAOTest.java ./src/test/suites/$(ENTITY)TestSuite.java
 
 # Rule to run specific test
 run-test: compile-test
-	java -Ddb.name=test.db -jar $(JUNIT_JAR) --class-path $(TEST_CLASSPATH) --scan-class-path --select-class com.fooddelivery.test.$(TEST)
+	java -Ddb.name=test.db -jar $(JUNIT_JAR) --class-path $(TEST_CLASSPATH) --select-class test.suites.$(ENTITY)TestSuite
 
 drop-table:
 	$(SQLITE3) $(DB_PATH) "DROP TABLE IF EXISTS $(TABLE_NAME);"
