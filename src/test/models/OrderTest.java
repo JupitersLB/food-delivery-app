@@ -9,7 +9,7 @@ import com.fooddelivery.models.Order;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class OrderTest {
+public class OrderTest {
 
     @Test
     void orderShouldBeInitializedWithProperties() {

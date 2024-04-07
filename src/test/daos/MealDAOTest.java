@@ -6,34 +6,26 @@ import org.junit.jupiter.api.AfterEach;
 import static org.junit.jupiter.api.Assertions.*;
 
 import com.fooddelivery.utils.DatabaseUtils;
-
+import com.fooddelivery.models.Meal;
 import com.fooddelivery.daos.MealDAO;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 
-public class MealDAOTest {
+public class MealDAOTest extends AbstractDAOTest {
 	private MealDAO mealDAO;
-	private Connection connection;
 
-
-	@BeforeEach
-	void setUp() throws Exception {
-		// Use DatabaseUtils to establish a connection for testing
-		DatabaseUtils.connectToDatabase();
-
-    connection = DriverManager.getConnection("jdbc:sqlite:data/test.db");
-		DatabaseUtils.prepareMealTestData(connection);
-		mealDAO = new MealDAO(connection);
-	}
-
-	@AfterEach
-	void tearDown() throws Exception {
-		// Close connection
-		if (connection != null) {
-				connection.close();
-		}
-	}
+  @BeforeEach
+  public void setUp() {
+    try {
+      super.setUp("meals");
+      DatabaseUtils.seedMealsData(connection);
+      mealDAO = new MealDAO(connection);
+    } catch (Exception e) {
+      e.printStackTrace();
+      System.out.println("Error setting up tests");
+    }
+  }
 
 	@Test
 	void testCreateAndFind() throws Exception {
