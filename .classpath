@@ -10,6 +10,7 @@
     <classpathentry kind="lib" path="lib/junit-platform-console-standalone-1.10.2.jar"/>
     <classpathentry kind="lib" path="lib/sqlite-jdbc-3.45.2.0.jar"/>
     <classpathentry kind="lib" path="lib/slf4j-api-1.7.36.jar"/>
+    <classpathentry kind="lib" path="lib/mockito-core-5.11.0.jar"/>
     
     <!-- Output directory for compiled classes -->
     <classpathentry kind="output" path="out"/>

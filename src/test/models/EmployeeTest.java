@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 import com.fooddelivery.models.Employee;
 import static org.junit.jupiter.api.Assertions.*;
 
-class EmployeeTest {
+public class EmployeeTest {
 
 	@Test
 	void employeeInitialization() {

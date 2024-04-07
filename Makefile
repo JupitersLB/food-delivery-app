@@ -12,12 +12,13 @@ DB_PATH = ./$(DB_DIR)/$(DB_NAME)
 JUNIT_JAR = lib/junit-platform-console-standalone-1.10.2.jar
 SQLITE_JDBC_JAR = lib/sqlite-jdbc-3.45.2.0.jar
 SLF_JAR = lib/slf4j-api-1.7.36.jar
+MOCKITO_JAR = lib/mockito-core-5.11.0.jar
 
 # SQLite CLI tool command
 SQLITE3 = sqlite3
 
 # Classpath including the out directory and both JUnit and SQLite JDBC jars for running tests
-TEST_CLASSPATH = $(OUT_DIR):$(JUNIT_JAR):$(SQLITE_JDBC_JAR):$(SLF_JAR)
+TEST_CLASSPATH = $(OUT_DIR):$(JUNIT_JAR):$(SQLITE_JDBC_JAR):$(SLF_JAR):$(MOCKITO_JAR)
 
 # Classpath including the out directory and the SQLite JDBC jar for running the application
 APP_CLASSPATH = $(OUT_DIR):$(SQLITE_JDBC_JAR):$(SLF_JAR)
@@ -42,7 +43,7 @@ run-all-tests: compile-all-tests
 
 # Compile specific model and its test
 compile-test: generate-model-list
-	javac -d $(OUT_DIR) -cp $(TEST_CLASSPATH) $(SRC_DIRC)/com/fooddelivery/utils/*.java $(SRC_DIRC)/com/fooddelivery/daos/$(ENTITY)DAO.java $(SRC_DIRC)/com/fooddelivery/models/$(ENTITY).java ./src/test/models/$(ENTITY)Test.java ./src/test/daos/$(ENTITY)DAOTest.java ./src/test/suites/$(ENTITY)TestSuite.java
+	javac -d $(OUT_DIR) -cp $(TEST_CLASSPATH) $(SRC_DIRC)/com/fooddelivery/utils/*.java $(SRC_DIRC)/com/fooddelivery/daos/$(ENTITY)DAO.java $(SRC_DIRC)/com/fooddelivery/models/$(ENTITY).java $(SRC_DIRC)/com/fooddelivery/controllers/$(ENTITY)Controller.java ./src/test/models/$(ENTITY)Test.java /src/test/controllers/$(ENTITY)ControllerTest.java ./src/test/daos/$(ENTITY)DAOTest.java ./src/test/suites/$(ENTITY)TestSuite.java
 
 # Rule to run specific test
 run-test: compile-test

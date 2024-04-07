@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 import com.fooddelivery.models.Meal;
 import static org.junit.jupiter.api.Assertions.*;
 
-class MealTest {
+public class MealTest {
 
 	@Test
 	void mealInitialization() {
