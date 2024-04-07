@@ -16,7 +16,7 @@ import java.util.List;
  */
 public class DatabaseUtils {
 	private static final String DATABASE_DIR = "data";
-	private static final String DATABASE_NAME = "database.db";
+  private static final String DATABASE_NAME = System.getProperty("db.name", "database.db"); // Default to "database.db"
 	private static final String URL = "jdbc:sqlite:" + DATABASE_DIR + "/" + DATABASE_NAME;
 
 	/**

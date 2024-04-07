@@ -17,7 +17,7 @@ SLF_JAR = lib/slf4j-api-1.7.36.jar
 SQLITE3 = sqlite3
 
 # Classpath including the out directory and both JUnit and SQLite JDBC jars for running tests
-TEST_CLASSPATH = $(OUT_DIR):$(JUNIT_JAR):$(SQLITE_JDBC_JAR)
+TEST_CLASSPATH = $(OUT_DIR):$(JUNIT_JAR):$(SQLITE_JDBC_JAR):$(SLF_JAR)
 
 # Classpath including the out directory and the SQLite JDBC jar for running the application
 APP_CLASSPATH = $(OUT_DIR):$(SQLITE_JDBC_JAR):$(SLF_JAR)
@@ -38,7 +38,7 @@ compile-all-tests: compile
 
 # Rule to run tests
 run-all-tests: compile-all-tests
-	java -jar $(JUNIT_JAR) --class-path $(OUT_DIR) --scan-class-path
+	java -Ddb.name=test.db -jar $(JUNIT_JAR) --class-path $(OUT_DIR) --scan-class-path
 
 # Compile specific model and its test
 compile-test: 
@@ -46,7 +46,7 @@ compile-test:
 
 # Rule to run specific test
 run-test: compile-test
-	java -jar $(JUNIT_JAR) --class-path $(TEST_CLASSPATH) --scan-class-path --select-class com.fooddelivery.test.$(TEST)
+	java -Ddb.name=test.db -jar $(JUNIT_JAR) --class-path $(TEST_CLASSPATH) --scan-class-path --select-class com.fooddelivery.test.$(TEST)
 
 drop-table:
 	$(SQLITE3) $(DB_PATH) "DROP TABLE IF EXISTS $(TABLE_NAME);"

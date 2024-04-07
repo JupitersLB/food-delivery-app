@@ -1,4 +1,4 @@
-package src.test.e2e;
+package test.e2e;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

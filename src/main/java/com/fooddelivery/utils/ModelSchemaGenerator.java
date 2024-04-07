@@ -24,34 +24,43 @@ public class ModelSchemaGenerator {
 	 * @param modelClass The class representing the model for which to generate the SQL table creation statement.
 	 * @return A SQL CREATE TABLE statement as a String.
 	 */
-	public static String createTableSQL(Class<?> modelClass) {
-		StringBuilder sql = new StringBuilder("CREATE TABLE IF NOT EXISTS ");
-		sql.append("\"").append(pluralize(modelClass.getSimpleName().toLowerCase())).append("\" (");
+  public static String createTableSQL(Class<?> modelClass) {
+    StringBuilder sql = new StringBuilder("CREATE TABLE IF NOT EXISTS ");
+    sql.append("\"").append(pluralize(modelClass.getSimpleName().toLowerCase())).append("\" (");
 
-		// Reflectively access declared fields of the class to generate column definitions.
-		Field[] fields = modelClass.getDeclaredFields();
-		for (int i = 0; i < fields.length; i++) {
-			Field field = fields[i];
+    Field[] fields = modelClass.getDeclaredFields();
+    boolean isFirst = true;
+    for (Field field : fields) {
 			Column columnAnnotation = field.getAnnotation(Column.class);
-			
-			String columnName = (columnAnnotation != null && !columnAnnotation.name().isEmpty()) 
-													? columnAnnotation.name() 
-													: field.getName();
-			String columnType = typeMapping.getOrDefault(field.getType(), "TEXT");
-			String nullable = (columnAnnotation != null && !columnAnnotation.nullable()) 
-												? " NOT NULL" 
-												: "";
 
-			sql.append(columnName).append(" ").append(columnType).append(nullable);
-
-			if (i < fields.length - 1) {
+			if (!isFirst) {
 				sql.append(", ");
 			}
-		}
+			isFirst = false;
 
-		sql.append(");");
-		return sql.toString();
-	}
+			String columnName = columnAnnotation.name().isEmpty() ? field.getName() : columnAnnotation.name();
+			String columnType = typeMapping.getOrDefault(field.getType(), "TEXT");
+			boolean isPrimaryKey = columnAnnotation.primaryKey();
+			boolean isAutoIncrement = columnAnnotation.autoincrement();
+			boolean isNotNull = columnAnnotation.nullable() == false;
+
+			sql.append(columnName).append(" ").append(columnType);
+
+			if (isPrimaryKey) {
+				sql.append(" PRIMARY KEY");
+				if (isAutoIncrement) {
+					sql.append(" AUTOINCREMENT");
+				}
+			}
+
+			if (isNotNull && !isPrimaryKey) { // PRIMARY KEY columns are inherently NOT NULL in SQLite
+				sql.append(" NOT NULL");
+			}
+    }
+
+    sql.append(");");
+    return sql.toString();
+  }
 
 	/**
 	 * Pluralizes a given class name based on common English pluralization rules.
