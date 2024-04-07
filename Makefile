@@ -22,9 +22,12 @@ TEST_CLASSPATH = $(OUT_DIR):$(JUNIT_JAR):$(SQLITE_JDBC_JAR)
 # Classpath including the out directory and the SQLite JDBC jar for running the application
 APP_CLASSPATH = $(OUT_DIR):$(SQLITE_JDBC_JAR):$(SLF_JAR)
 
+generate-model-list:
+	./list-models.sh
+
 # Rule for compiling the Java application
-compile:
-	javac -d $(OUT_DIR) -cp $(APP_CLASSPATH) $(SRC_DIRC)/com/fooddelivery/*.java $(SRC_DIRC)/com/fooddelivery/utils/*.java
+compile: generate-model-list
+	javac -d $(OUT_DIR) -cp $(APP_CLASSPATH) $(SRC_DIRC)/com/fooddelivery/**/*.java $(SRC_DIRC)/com/fooddelivery/utils/*.java
 
 # Define the target entry for starting the application
 run: compile

@@ -1,3 +1,4 @@
 .vscode
 out
 *.db
+model_classes.txt
