@@ -11,7 +11,7 @@ public class OrderTest {
 
 	@Test
 	void orderInitialization() {
-		Order order = new Order(1, new Meal(1, "Pizza", 10), new Employee(1, "JohnDoe", "password", "Chef"), new Customer(1, "Jane Doe", "123 Main St"), false);
+		Order order = new Order(1, false, new Meal(1, "Pizza", 10), new Customer(1, "Jane Doe", "123 Main St"), new Employee(1, "JohnDoe", "password", "Chef"));
 		assertAll("Order properties",
 			() -> assertEquals(1, order.getId()),
 			() -> assertEquals("Pizza", order.getMeal().getName()),
@@ -23,7 +23,7 @@ public class OrderTest {
 
 	@Test
 	void deliverOrder() {
-		Order order = new Order(12, false);
+    Order order = new Order(1, false, new Meal(1, "Pizza", 10), new Customer(1, "Jane Doe", "123 Main St"), new Employee(1, "JohnDoe", "password", "Chef"));
 		assertFalse(order.isDelivered());
 		order.deliver();
 		assertTrue(order.isDelivered());

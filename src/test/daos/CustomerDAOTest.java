@@ -1,19 +1,12 @@
 package test.daos;
 
 import com.fooddelivery.models.Customer;
-import com.fooddelivery.daos.CustomerDAO;
 import com.fooddelivery.utils.DatabaseUtils;
-
-import com.fooddelivery.daos.MealDAO;
+import com.fooddelivery.daos.CustomerDAO;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.Statement;
 
 public class CustomerDAOTest extends AbstractDAOTest {
 	private CustomerDAO customerDAO;
@@ -23,6 +16,7 @@ public class CustomerDAOTest extends AbstractDAOTest {
   void setUp() throws Exception {
     super.setUp();
     customerDAO = new CustomerDAO(connection);
+    DatabaseUtils.seedCustomersData(connection);
   }
 
 	@Test

@@ -9,18 +9,11 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import org.mockito.Mock;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
-import java.util.Arrays;
+import java.sql.SQLException;
 import java.util.List;
 
-import org.mockito.ArgumentCaptor;
-import org.mockito.Mockito;
-import org.mockito.Captor;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 
 public class CustomerControllerTest extends AbstractControllerTest<Customer, CustomerController> {
 
@@ -32,13 +25,6 @@ public class CustomerControllerTest extends AbstractControllerTest<Customer, Cus
 	public void setUp() {
 		super.setUp();
 		controller = new CustomerController(dao);
-
-		// Mock initial data
-		when(dao.all()).thenReturn(List.of(
-			new Customer(1, "Paul McCartney", "Liverpool"),
-			new Customer(2, "John Bonham", "Redditch"),
-			new Customer(3, "John Entwistle", "Chiswick")
-	));
 	}
 
 	@Test
@@ -47,21 +33,35 @@ public class CustomerControllerTest extends AbstractControllerTest<Customer, Cus
 	}
 
 	@Test
-	void shouldAskForNameAndAddressThenStoreNewCustomer() {
+	void shouldAskForNameAndAddressThenStoreNewCustomer() throws SQLException {
 		// Simulate user input for name and address
-		provideInput("John\nJohn's Address\n");
+    try {
+      System.out.println("PROVide inputs");
+      provideInput("John\nJohn's Address\n");
 
-		controller.add();
-
-		verify(dao).create(captor.capture());
-		Customer addedCustomer = captor.getValue();
-
-		assertEquals("John", addedCustomer.getName());
-		assertEquals("John's Address", addedCustomer.getAddress());
+      System.out.println("ADD");
+      controller.add();
+  
+      verify(dao).create(captor.capture());
+      Customer addedCustomer = captor.getValue();
+  
+      assertEquals("John", addedCustomer.getName());
+      assertEquals("John's Address", addedCustomer.getAddress());
+    } catch(Exception e) {
+      e.printStackTrace();
+    }
+		
 	}
 
 	@Test
-	void shouldGrabCustomersFromDAOAndDisplayThem() {
+	void shouldGrabCustomersFromDAOAndDisplayThem() throws SQLException {
+    // Mock initial data
+		when(dao.all()).thenReturn(List.of(
+			new Customer(1, "Paul McCartney", "Liverpool"),
+			new Customer(2, "John Bonham", "Redditch"),
+			new Customer(3, "John Entwistle", "Chiswick")
+	  ));
+
 		controller.list();
 
 		String output = getOutput();

@@ -4,15 +4,11 @@ import com.fooddelivery.models.Employee;
 import com.fooddelivery.daos.EmployeeDAO;
 import com.fooddelivery.utils.DatabaseUtils;
 
-import com.fooddelivery.daos.MealDAO;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.util.List;
 
 public class EmployeeDAOTest extends AbstractDAOTest {
@@ -23,6 +19,7 @@ public class EmployeeDAOTest extends AbstractDAOTest {
   void setUp() throws Exception {
     super.setUp();
     employeeDAO = new EmployeeDAO(connection);
+    DatabaseUtils.seedEmployeesData(connection);
   }
 
 	@AfterEach
@@ -47,7 +44,7 @@ public class EmployeeDAOTest extends AbstractDAOTest {
 
 	@Test
 	void testFindById() throws Exception {
-		Employee employee = employeeDAO.findById(1);
+		Employee employee = employeeDAO.find(1);
 		assertNotNull(employee);
 		assertEquals("paul", employee.getUsername());
 	}

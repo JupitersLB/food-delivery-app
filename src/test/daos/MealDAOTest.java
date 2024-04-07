@@ -2,15 +2,11 @@ package test.daos;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.AfterEach;
 import static org.junit.jupiter.api.Assertions.*;
 
-import com.fooddelivery.utils.DatabaseUtils;
 import com.fooddelivery.models.Meal;
+import com.fooddelivery.utils.DatabaseUtils;
 import com.fooddelivery.daos.MealDAO;
-
-import java.sql.Connection;
-import java.sql.DriverManager;
 
 public class MealDAOTest extends AbstractDAOTest {
 	private MealDAO mealDAO;
@@ -20,6 +16,7 @@ public class MealDAOTest extends AbstractDAOTest {
   void setUp() throws Exception {
     super.setUp();
     mealDAO = new MealDAO(connection);
+    DatabaseUtils.seedMealsData(connection);
   }
 
 	@Test

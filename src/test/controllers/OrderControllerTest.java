@@ -9,7 +9,11 @@ import org.junit.jupiter.api.Test;
 import org.mockito.*;
 import static org.mockito.Mockito.*;
 
+import java.sql.SQLException;
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
+
 
 public class OrderControllerTest extends AbstractControllerTest<Order, OrderController> {
 
@@ -30,14 +34,14 @@ public class OrderControllerTest extends AbstractControllerTest<Order, OrderCont
 	}
 
 	@Test
-	void addShouldAskUserForMealCustomerEmployeeIndexesThenStoreNewOrder() {
+	void addShouldAskUserForMealCustomerEmployeeIndexesThenStoreNewOrder() throws SQLException {
 		Meal capricciosa = new Meal(2, "Capricciosa", 11);
 		Customer johnBonham = new Customer(2, "John Bonham", "Redditch");
 		Employee ringo = new Employee(3, "ringo", "secret", "delivery_guy");
 
-		when(mealDAO.findById(2)).thenReturn(capricciosa);
-		when(customerDAO.findById(2)).thenReturn(johnBonham);
-		when(employeeDAO.findById(3)).thenReturn(ringo);
+		when(mealDAO.find(2)).thenReturn(capricciosa);
+		when(customerDAO.find(2)).thenReturn(johnBonham);
+		when(employeeDAO.find(3)).thenReturn(ringo);
 
 		provideInput("2\n2\n3\n");
 
@@ -52,21 +56,28 @@ public class OrderControllerTest extends AbstractControllerTest<Order, OrderCont
 	}
 
 	@Test
-	void listUndeliveredOrdersShouldDisplayCorrectInfo() {
-		Order order1 = new Order(1, false, 1, 1, 2);
-		Order order2 = new Order(2, false, 2, 2, 3);
+	void listUndeliveredOrdersShouldDisplayCorrectInfo() throws SQLException {
+    Meal mealOne = new Meal(1, "Margherita", 8);
+    Meal mealTwo = new Meal(2, "Capricciosa", 11);
+    Customer customerOne = new Customer(1, "Paul McCartney", "Liverpool");
+    Customer customerTwo = new Customer(2, "John Bonham", "Redditch");
+    Employee employeeOne = new Employee(2, "john", "secret", "delivery_guy");
+    Employee employeeTwo = new Employee(3, "ringo", "secret", "delivery_guy");
+		Order order1 = new Order(1, false, mealOne, customerOne, employeeOne);
+		Order order2 = new Order(2, false, mealTwo, customerTwo, employeeTwo);
 
 		when(orderDAO.undeliveredOrders()).thenReturn(List.of(order1, order2));
-		when(mealDAO.findById(1)).thenReturn(new Meal(1, "Margherita", 8));
-		when(mealDAO.findById(2)).thenReturn(new Meal(2, "Capricciosa", 11));
-		when(customerDAO.findById(1)).thenReturn(new Customer(1, "Paul McCartney", "Liverpool"));
-		when(customerDAO.findById(2)).thenReturn(new Customer(2, "John Bonham", "Redditch"));
-		when(employeeDAO.findById(2)).thenReturn(new Employee(2, "john", "secret", "delivery_guy"));
-		when(employeeDAO.findById(3)).thenReturn(new Employee(3, "ringo", "secret", "delivery_guy"));
+		when(mealDAO.find(1)).thenReturn(mealOne);
+		when(mealDAO.find(2)).thenReturn(mealTwo);
+		when(customerDAO.find(1)).thenReturn(customerOne);
+		when(customerDAO.find(2)).thenReturn(customerTwo);
+		when(employeeDAO.find(2)).thenReturn(employeeOne);
+		when(employeeDAO.find(3)).thenReturn(employeeTwo);
 
 		controller.listUndeliveredOrders();
 
 		String output = getOutput();
+    System.out.println(output);
 		assertTrue(output.contains("Margherita"));
 		assertTrue(output.contains("Capricciosa"));
 		assertTrue(output.contains("Paul McCartney"));
@@ -74,13 +85,16 @@ public class OrderControllerTest extends AbstractControllerTest<Order, OrderCont
 	}
 
 	@Test
-	void markAsDeliveredShouldUpdateOrderStatus() {
-		Order orderToMark = new Order(4, false, 5, 2, 3);
-		when(orderDAO.findById(4)).thenReturn(orderToMark);
+	void markAsDeliveredShouldUpdateOrderStatus() throws SQLException {
+    Meal meal = new Meal(1, "Margherita", 8);
+    Customer customer = new Customer(1, "Paul McCartney", "Liverpool");
+    Employee employee = new Employee(2, "john", "secret", "delivery_guy");
+		Order orderToMark = new Order(4, false, meal, customer, employee);
+		when(orderDAO.find(4)).thenReturn(orderToMark);
 
-		provideInput("4");
+		provideInput("4\n");
 
-		controller.markAsDelivered(3);
+		controller.markAsDelivered(employee.getId());
 
 		assertTrue(orderToMark.isDelivered());
 		verify(orderDAO).update(orderToMark);

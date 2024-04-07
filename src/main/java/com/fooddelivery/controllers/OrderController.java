@@ -1,8 +1,6 @@
 package com.fooddelivery.controllers;
 import com.fooddelivery.daos.*;
 
-// new OrderController(mealDAO, customerDAO, employeeDAO, orderDAO);
-
 public class OrderController {
 	private MealDAO mealDAO;
 	private CustomerDAO customerDAO;

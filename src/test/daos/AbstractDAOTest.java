@@ -16,7 +16,6 @@ public abstract class AbstractDAOTest {
 		DatabaseUtils.connectToDatabase();
 
 		connection = DriverManager.getConnection("jdbc:sqlite:data/test.db");
-		DatabaseUtils.setupAndSeedAllData(connection);
 	}
 
 	@AfterEach

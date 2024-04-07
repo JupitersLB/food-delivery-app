@@ -1,16 +1,19 @@
 package test.daos;
 
+import com.fooddelivery.models.Customer;
+import com.fooddelivery.models.Employee;
+import com.fooddelivery.models.Meal;
 import com.fooddelivery.models.Order;
-
-import com.fooddelivery.daos.CustomerDAO;
 import com.fooddelivery.utils.DatabaseUtils;
-
-import com.fooddelivery.daos.OrderDAO;
+import com.fooddelivery.daos.*;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
 
 import java.util.List;
 
@@ -21,7 +24,8 @@ public class OrderDAOTest extends AbstractDAOTest {
   @Override
   void setUp() throws Exception {
     super.setUp();
-    orderDAO = new OrderDAO(connection);
+    orderDAO = new OrderDAO(connection, new MealDAO(connection), new CustomerDAO(connection), new EmployeeDAO(connection));
+    DatabaseUtils.setupAndSeedAllData(connection);
   }
 
 	@Test
@@ -33,12 +37,16 @@ public class OrderDAOTest extends AbstractDAOTest {
 
 	@Test
 	void testCreateAndSetId() throws Exception {
-		Order newOrder = new Order(1, false, 1, 1, 2); // Assuming these IDs exist in meal, customer, and employee tables
+    Meal meal = new Meal(2, "Capricciosa", 11);
+		Customer customer = new Customer(2, "John Bonham", "Redditch");
+		Employee employee = new Employee(3, "ringo", "secret", "delivery_guy");
+
+		Order newOrder = new Order(1, false, meal, customer, employee);
 		orderDAO.create(newOrder);
 		assertNotNull(newOrder.getId());
 		assertTrue(newOrder.getId() > 0); // ID should be set by the DAO upon creation
 
-		Order foundOrder = orderDAO.findById(newOrder.getId());
+		Order foundOrder = orderDAO.find(newOrder.getId());
 		assertNotNull(foundOrder);
 		assertEquals(newOrder.getId(), foundOrder.getId());
 	}

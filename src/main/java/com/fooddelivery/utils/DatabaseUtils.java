@@ -93,7 +93,6 @@ public class DatabaseUtils {
 			String sql = ModelSchemaGenerator.createTableSQL(modelClass);
 			try (Connection conn = connect(); Statement stmt = conn.createStatement()) {
 				stmt.execute(sql);
-				System.out.println("Table created for model: " + modelClass.getSimpleName());
 			} catch (SQLException e) {
 				System.err.println("Failed to create table for model: " + modelClass.getSimpleName() + ". Error: " + e.getMessage());
 			}
@@ -109,6 +108,7 @@ public class DatabaseUtils {
     try (Statement statement = connection.createStatement()) {
       // Clear existing data
       statement.execute("DELETE FROM " + tableName);
+      resetAutoIncrement(connection, tableName);
     } catch (SQLException e) {
       System.err.println("Failed to reset table " + tableName + ": " + e.getMessage());
     }
@@ -120,10 +120,11 @@ public class DatabaseUtils {
    */
   public static void seedMealsData(Connection connection) {
     try (Statement statement = connection.createStatement()) {
-        // Insert predefined test data
-        statement.execute("INSERT INTO meals (name, price) VALUES ('Margherita', 8), ('Capricciosa', 11), ('Napolitana', 9), ('Funghi', 12), ('Calzone', 10)");
+      resetTable(connection, "meals");
+      // Insert predefined test data
+      statement.execute("INSERT INTO meals (name, price) VALUES ('Margherita', 8), ('Capricciosa', 11), ('Napolitana', 9), ('Funghi', 12), ('Calzone', 10)");
     } catch (SQLException e) {
-        System.err.println("Error preparing test data: " + e.getMessage());
+      System.err.println("Error preparing test data: " + e.getMessage());
     }
   }
 
@@ -133,8 +134,9 @@ public class DatabaseUtils {
    */
   public static void seedCustomersData(Connection connection) {
     try (Statement statement = connection.createStatement()) {
-        // Insert predefined test data
-        statement.execute("INSERT INTO customers (name, address) VALUES ('Paul McCartney', 'Liverpool'), ('John Bonham', 'Redditch'), ('John Entwistle', 'Chiswick')");
+      resetTable(connection, "customers");
+      // Insert predefined test data
+      statement.execute("INSERT INTO customers (name, address) VALUES ('Paul McCartney', 'Liverpool'), ('John Bonham', 'Redditch'), ('John Entwistle', 'Chiswick')");
     } catch (SQLException e) {
         System.err.println("Error preparing test data: " + e.getMessage());
     }
@@ -146,8 +148,9 @@ public class DatabaseUtils {
    */
   public static void seedEmployeesData(Connection connection) {
     try (Statement statement = connection.createStatement()) {
-        // Insert predefined test data
-        statement.execute("INSERT INTO employees (username, password, role) VALUES ('paul', 'secret', 'manager'), ('john', 'secret', 'delivery_guy'), ('ringo', 'secret', 'delivery_guy');");
+      resetTable(connection, "employees");
+      // Insert predefined test data
+      statement.execute("INSERT INTO employees (username, password, role) VALUES ('paul', 'secret', 'manager'), ('john', 'secret', 'delivery_guy'), ('ringo', 'secret', 'delivery_guy');");
     } catch (SQLException e) {
         System.err.println("Error seeding employees table: " + e.getMessage());
     }
@@ -179,7 +182,6 @@ public class DatabaseUtils {
         
         preparedStatement.executeUpdate();
       }
-      System.out.println("Order data seeded successfully.");
     } catch (SQLException e) {
       System.err.println("Failed to seed order data: " + e.getMessage());
     }
@@ -204,5 +206,18 @@ public class DatabaseUtils {
     
     // Now seed the orders table with dependencies fulfilled
     seedOrderData(connection);
+  }
+
+  /**
+   * Resets the auto-increment counter for a specified table.
+   * 
+   * @param conn The database connection.
+   * @param tableName The name of the table for which to reset the auto-increment counter.
+   * @throws SQLException if a database access error occurs or the method is called on a closed connection.
+   */
+  public static void resetAutoIncrement(Connection conn, String tableName) throws SQLException {
+    try (Statement stmt = conn.createStatement()) {
+      stmt.execute("UPDATE sqlite_sequence SET seq = 0 WHERE name = '" + tableName + "'");
+    }
   }
 }

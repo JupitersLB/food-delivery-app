@@ -6,13 +6,11 @@ import com.fooddelivery.models.Meal;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
 import org.mockito.Mock;
 
 import static org.mockito.Mockito.*;
-import static org.mockito.MockitoAnnotations.openMocks;
 
+import java.sql.SQLException;
 import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -30,12 +28,12 @@ public class MealControllerTest extends AbstractControllerTest<Meal, MealControl
 	}
 
 	@Test
-	void addShouldAskUserForNameAndPriceThenStoreNewMeal() {
+	void addShouldAskUserForNameAndPriceThenStoreNewMeal() throws SQLException  {
 		provideInput("Margherita\n800\n");
 
-		controller.addMeal();
+		controller.add();
 
-		verify(mealDAO).save(captor.capture());
+		verify(mealDAO).create(captor.capture());
 		Meal savedMeal = captor.getValue();
 
 		assertEquals("Margherita", savedMeal.getName());
@@ -43,13 +41,13 @@ public class MealControllerTest extends AbstractControllerTest<Meal, MealControl
 	}
 
 	@Test
-	void listShouldDisplayMeals() {
+	void listShouldDisplayMeals() throws SQLException {
 			Meal meal1 = new Meal(1, "Margherita", 800);
 			Meal meal2 = new Meal(2, "Pepperoni", 950);
 
-			when(mealDAO.findAll()).thenReturn(Arrays.asList(meal1, meal2));
+			when(mealDAO.all()).thenReturn(Arrays.asList(meal1, meal2));
 
-			controller.listMeals();
+			controller.list();
 
 			String output = getOutput();
 			assertTrue(output.contains("Margherita"));

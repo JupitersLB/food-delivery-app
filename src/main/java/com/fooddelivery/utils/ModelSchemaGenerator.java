@@ -15,6 +15,8 @@ public class ModelSchemaGenerator {
 		typeMapping.put(int.class, "INTEGER");
 		typeMapping.put(Integer.class, "INTEGER");
 		typeMapping.put(String.class, "TEXT");
+    typeMapping.put(double.class, "REAL");
+    typeMapping.put(Double.class, "REAL");
 		// Additional type mappings can be added here.
 	}
 
