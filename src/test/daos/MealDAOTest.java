@@ -16,15 +16,10 @@ public class MealDAOTest extends AbstractDAOTest {
 	private MealDAO mealDAO;
 
   @BeforeEach
-  public void setUp() {
-    try {
-      super.setUp("meals");
-      DatabaseUtils.seedMealsData(connection);
-      mealDAO = new MealDAO(connection);
-    } catch (Exception e) {
-      e.printStackTrace();
-      System.out.println("Error setting up tests");
-    }
+  @Override
+  void setUp() throws Exception {
+    super.setUp();
+    mealDAO = new MealDAO(connection);
   }
 
 	@Test

@@ -18,16 +18,10 @@ public class OrderDAOTest extends AbstractDAOTest {
 	private OrderDAO orderDAO;
 
 	@BeforeEach
-  void setUp() {
-    try {
-      super.setUp("orders");
-      DatabaseUtils.setupAndSeedAllData(connection);
-			orderDAO = new OrderDAO(connection);
-
-    } catch (Exception e) {
-      e.printStackTrace();
-      System.out.println("Error setting up tests");
-    }
+  @Override
+  void setUp() throws Exception {
+    super.setUp();
+    orderDAO = new OrderDAO(connection);
   }
 
 	@Test

@@ -19,15 +19,10 @@ public class CustomerDAOTest extends AbstractDAOTest {
 	private CustomerDAO customerDAO;
 
   @BeforeEach
-  public void setUp() {
-    try {
-      super.setUp("customers");
-      DatabaseUtils.seedCustomersData(connection);
-		customerDAO = new CustomerDAO(connection);
-    } catch (Exception e) {
-      e.printStackTrace();
-      System.out.println("Error setting up tests");
-    }
+  @Override
+  void setUp() throws Exception {
+    super.setUp();
+    customerDAO = new CustomerDAO(connection);
   }
 
 	@Test

@@ -11,12 +11,12 @@ public abstract class AbstractDAOTest {
 	protected Connection connection;
 
 	@BeforeEach
-	void setUp(String table) throws Exception {
+	void setUp() throws Exception {
 		// Adjust connectToTestDatabase to ensure it correctly points to your test DB
 		DatabaseUtils.connectToDatabase();
 
 		connection = DriverManager.getConnection("jdbc:sqlite:data/test.db");
-		DatabaseUtils.resetTable(connection, table);
+		DatabaseUtils.setupAndSeedAllData(connection);
 	}
 
 	@AfterEach
