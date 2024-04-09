@@ -9,7 +9,7 @@ DB_NAME = database.db
 DB_PATH = ./$(DB_DIR)/$(DB_NAME)
 TEST_DB_PATH = ./$(DB_DIR)/test.db
 
-# JUnit and SQLite JDBC jar paths
+# JAR paths
 JUNIT_JAR = lib/junit-platform-console-standalone-1.10.2.jar
 SQLITE_JDBC_JAR = lib/sqlite-jdbc-3.45.2.0.jar
 SLF_JAR = lib/slf4j-api-1.7.36.jar
@@ -37,20 +37,15 @@ compile: generate-model-list
 run: compile
 	java -cp $(APP_CLASSPATH) com.fooddelivery.App
 
-compile-all-tests: compile
+compile-tests: compile
 	javac -d $(OUT_DIR) -cp $(TEST_CLASSPATH) ./src/test/**/*.java 
 
 # Rule to run tests
-run-all-tests: compile-all-tests
+run-tests: compile-all-tests
 	java -Ddb.name=test.db -jar $(JUNIT_JAR) --class-path $(TEST_CLASSPATH) --scan-class-path
 
-# Compile specific model and its test
-compile-test: generate-model-list
-	javac -d $(OUT_DIR) -cp $(TEST_CLASSPATH) $(SRC_DIRC)/com/fooddelivery/utils/*.java $(SRC_DIRC)/com/fooddelivery/daos/$(ENTITY)DAO.java $(SRC_DIRC)/com/fooddelivery/models/$(ENTITY).java $(SRC_DIRC)/com/fooddelivery/controllers/$(ENTITY)Controller.java ./src/test/models/$(ENTITY)Test.java ./src/test/controllers/$(ENTITY)ControllerTest.java ./src/test/controllers/AbstractControllerTest.java ./src/test/daos/$(ENTITY)DAOTest.java ./src/test/daos/AbstractDAOTest.java ./src/test/suites/$(ENTITY)TestSuite.java
-
-# Rule to run specific test
-run-test: compile-test
-	java -Ddb.name=test.db -jar $(JUNIT_JAR) --class-path $(TEST_CLASSPATH) --select-class test.suites.$(ENTITY)TestSuite
+run-specific-tests: generate-model-list
+	./runCustomTests.sh $(ENTITY) $(COMPONENT)
 
 drop-db:
 	rm -f $(DB_PATH)
