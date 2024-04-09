@@ -11,13 +11,13 @@ import com.fooddelivery.daos.MealDAO;
 public class MealDAOTest extends AbstractDAOTest {
 	private MealDAO mealDAO;
 
-  @BeforeEach
-  @Override
-  void setUp() throws Exception {
-    super.setUp();
-    mealDAO = new MealDAO(connection);
-    DatabaseUtils.seedMealsData(connection);
-  }
+	@BeforeEach
+	@Override
+	void setUp() throws Exception {
+		super.setUp();
+		mealDAO = new MealDAO(connection);
+		DatabaseUtils.seedMealsData(connection);
+	}
 
 	@Test
 	void testCreateAndFind() throws Exception {

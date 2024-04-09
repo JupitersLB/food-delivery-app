@@ -21,7 +21,7 @@ public abstract class AbstractDAOTest {
 	@AfterEach
 	void tearDown() throws Exception {
 		if (connection != null) {
-		connection.close();
+			connection.close();
 		}
 	}
 }

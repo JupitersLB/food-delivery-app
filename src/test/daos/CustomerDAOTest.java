@@ -11,13 +11,13 @@ import static org.junit.jupiter.api.Assertions.*;
 public class CustomerDAOTest extends AbstractDAOTest {
 	private CustomerDAO customerDAO;
 
-  @BeforeEach
-  @Override
-  void setUp() throws Exception {
-    super.setUp();
-    customerDAO = new CustomerDAO(connection);
-    DatabaseUtils.seedCustomersData(connection);
-  }
+	@BeforeEach
+	@Override
+	void setUp() throws Exception {
+		super.setUp();
+		customerDAO = new CustomerDAO(connection);
+		DatabaseUtils.seedCustomersData(connection);
+	}
 
 	@Test
 	void testAll() throws Exception {

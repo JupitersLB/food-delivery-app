@@ -10,10 +10,10 @@ public class EmployeeTest {
 	void employeeInitialization() {
 		Employee employee = new Employee(1, "paul", "secret", "manager");
 		assertAll("Employee properties",
-				() -> assertEquals(1, employee.getId()),
-				() -> assertEquals("paul", employee.getUsername()),
-				() -> assertEquals("secret", employee.getPassword()),
-				() -> assertEquals("manager", employee.getRole())
+			() -> assertEquals(1, employee.getId()),
+			() -> assertEquals("paul", employee.getUsername()),
+			() -> assertEquals("secret", employee.getPassword()),
+			() -> assertEquals("manager", employee.getRole())
 		);
 	}
 

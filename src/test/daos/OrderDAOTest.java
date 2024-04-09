@@ -21,12 +21,12 @@ public class OrderDAOTest extends AbstractDAOTest {
 	private OrderDAO orderDAO;
 
 	@BeforeEach
-  @Override
-  void setUp() throws Exception {
-    super.setUp();
-    orderDAO = new OrderDAO(connection, new MealDAO(connection), new CustomerDAO(connection), new EmployeeDAO(connection));
-    DatabaseUtils.setupAndSeedAllData(connection);
-  }
+	@Override
+	void setUp() throws Exception {
+		super.setUp();
+		orderDAO = new OrderDAO(connection, new MealDAO(connection), new CustomerDAO(connection), new EmployeeDAO(connection));
+		DatabaseUtils.setupAndSeedAllData(connection);
+	}
 
 	@Test
 	void testAll() throws Exception {
@@ -37,7 +37,7 @@ public class OrderDAOTest extends AbstractDAOTest {
 
 	@Test
 	void testCreateAndSetId() throws Exception {
-    Meal meal = new Meal(2, "Capricciosa", 11);
+    	Meal meal = new Meal(2, "Capricciosa", 11);
 		Customer customer = new Customer(2, "John Bonham", "Redditch");
 		Employee employee = new Employee(3, "ringo", "secret", "delivery_guy");
 

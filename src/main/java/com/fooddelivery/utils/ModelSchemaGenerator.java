@@ -15,8 +15,8 @@ public class ModelSchemaGenerator {
 		typeMapping.put(int.class, "INTEGER");
 		typeMapping.put(Integer.class, "INTEGER");
 		typeMapping.put(String.class, "TEXT");
-    typeMapping.put(double.class, "REAL");
-    typeMapping.put(Double.class, "REAL");
+		typeMapping.put(double.class, "REAL");
+		typeMapping.put(Double.class, "REAL");
 		// Additional type mappings can be added here.
 	}
 
@@ -26,13 +26,13 @@ public class ModelSchemaGenerator {
 	 * @param modelClass The class representing the model for which to generate the SQL table creation statement.
 	 * @return A SQL CREATE TABLE statement as a String.
 	 */
-  public static String createTableSQL(Class<?> modelClass) {
-    StringBuilder sql = new StringBuilder("CREATE TABLE IF NOT EXISTS ");
-    sql.append("\"").append(pluralize(modelClass.getSimpleName().toLowerCase())).append("\" (");
+  	public static String createTableSQL(Class<?> modelClass) {
+		StringBuilder sql = new StringBuilder("CREATE TABLE IF NOT EXISTS ");
+		sql.append("\"").append(pluralize(modelClass.getSimpleName().toLowerCase())).append("\" (");
 
-    Field[] fields = modelClass.getDeclaredFields();
-    boolean isFirst = true;
-    for (Field field : fields) {
+		Field[] fields = modelClass.getDeclaredFields();
+		boolean isFirst = true;
+		for (Field field : fields) {
 			Column columnAnnotation = field.getAnnotation(Column.class);
 
 			if (!isFirst) {
@@ -58,11 +58,11 @@ public class ModelSchemaGenerator {
 			if (isNotNull && !isPrimaryKey) { // PRIMARY KEY columns are inherently NOT NULL in SQLite
 				sql.append(" NOT NULL");
 			}
-    }
+		}
 
-    sql.append(");");
-    return sql.toString();
-  }
+		sql.append(");");
+		return sql.toString();
+  	}
 
 	/**
 	 * Pluralizes a given class name based on common English pluralization rules.
@@ -76,7 +76,7 @@ public class ModelSchemaGenerator {
 		if (className.endsWith("y")) {
 			pluralizedName = className.substring(0, className.length() - 1) + "ies";
 		} else if (className.endsWith("s") || className.endsWith("x") || className.endsWith("z") || 
-								className.endsWith("ch") || className.endsWith("sh")) {
+		className.endsWith("ch") || className.endsWith("sh")) {
 			pluralizedName = className + "es";
 		} else {
 			pluralizedName = className + "s";

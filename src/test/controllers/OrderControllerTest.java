@@ -57,12 +57,12 @@ public class OrderControllerTest extends AbstractControllerTest<Order, OrderCont
 
 	@Test
 	void listUndeliveredOrdersShouldDisplayCorrectInfo() throws SQLException {
-    Meal mealOne = new Meal(1, "Margherita", 8);
-    Meal mealTwo = new Meal(2, "Capricciosa", 11);
-    Customer customerOne = new Customer(1, "Paul McCartney", "Liverpool");
-    Customer customerTwo = new Customer(2, "John Bonham", "Redditch");
-    Employee employeeOne = new Employee(2, "john", "secret", "delivery_guy");
-    Employee employeeTwo = new Employee(3, "ringo", "secret", "delivery_guy");
+		Meal mealOne = new Meal(1, "Margherita", 8);
+		Meal mealTwo = new Meal(2, "Capricciosa", 11);
+		Customer customerOne = new Customer(1, "Paul McCartney", "Liverpool");
+		Customer customerTwo = new Customer(2, "John Bonham", "Redditch");
+		Employee employeeOne = new Employee(2, "john", "secret", "delivery_guy");
+		Employee employeeTwo = new Employee(3, "ringo", "secret", "delivery_guy");
 		Order order1 = new Order(1, false, mealOne, customerOne, employeeOne);
 		Order order2 = new Order(2, false, mealTwo, customerTwo, employeeTwo);
 
@@ -77,7 +77,7 @@ public class OrderControllerTest extends AbstractControllerTest<Order, OrderCont
 		controller.listUndeliveredOrders();
 
 		String output = getOutput();
-    System.out.println(output);
+    	System.out.println(output);
 		assertTrue(output.contains("Margherita"));
 		assertTrue(output.contains("Capricciosa"));
 		assertTrue(output.contains("Paul McCartney"));
@@ -86,9 +86,9 @@ public class OrderControllerTest extends AbstractControllerTest<Order, OrderCont
 
 	@Test
 	void markAsDeliveredShouldUpdateOrderStatus() throws SQLException {
-    Meal meal = new Meal(1, "Margherita", 8);
-    Customer customer = new Customer(1, "Paul McCartney", "Liverpool");
-    Employee employee = new Employee(2, "john", "secret", "delivery_guy");
+		Meal meal = new Meal(1, "Margherita", 8);
+		Customer customer = new Customer(1, "Paul McCartney", "Liverpool");
+		Employee employee = new Employee(2, "john", "secret", "delivery_guy");
 		Order orderToMark = new Order(4, false, meal, customer, employee);
 		when(orderDAO.find(4)).thenReturn(orderToMark);
 

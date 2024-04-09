@@ -35,32 +35,31 @@ public class CustomerControllerTest extends AbstractControllerTest<Customer, Cus
 	@Test
 	void shouldAskForNameAndAddressThenStoreNewCustomer() throws SQLException {
 		// Simulate user input for name and address
-    try {
-      System.out.println("PROVide inputs");
-      provideInput("John\nJohn's Address\n");
+		try {
+			System.out.println("PROVide inputs");
+			provideInput("John\nJohn's Address\n");
 
-      System.out.println("ADD");
-      controller.add();
-  
-      verify(dao).create(captor.capture());
-      Customer addedCustomer = captor.getValue();
-  
-      assertEquals("John", addedCustomer.getName());
-      assertEquals("John's Address", addedCustomer.getAddress());
-    } catch(Exception e) {
-      e.printStackTrace();
-    }
-		
+			System.out.println("ADD");
+			controller.add();
+
+			verify(dao).create(captor.capture());
+			Customer addedCustomer = captor.getValue();
+
+			assertEquals("John", addedCustomer.getName());
+			assertEquals("John's Address", addedCustomer.getAddress());
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Test
 	void shouldGrabCustomersFromDAOAndDisplayThem() throws SQLException {
-    // Mock initial data
+    	// Mock initial data
 		when(dao.all()).thenReturn(List.of(
 			new Customer(1, "Paul McCartney", "Liverpool"),
 			new Customer(2, "John Bonham", "Redditch"),
 			new Customer(3, "John Entwistle", "Chiswick")
-	  ));
+	  	));
 
 		controller.list();
 

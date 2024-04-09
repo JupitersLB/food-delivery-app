@@ -42,17 +42,17 @@ public class MealControllerTest extends AbstractControllerTest<Meal, MealControl
 
 	@Test
 	void listShouldDisplayMeals() throws SQLException {
-			Meal meal1 = new Meal(1, "Margherita", 800);
-			Meal meal2 = new Meal(2, "Pepperoni", 950);
+		Meal meal1 = new Meal(1, "Margherita", 800);
+		Meal meal2 = new Meal(2, "Pepperoni", 950);
 
-			when(mealDAO.all()).thenReturn(Arrays.asList(meal1, meal2));
+		when(mealDAO.all()).thenReturn(Arrays.asList(meal1, meal2));
 
-			controller.list();
+		controller.list();
 
-			String output = getOutput();
-			assertTrue(output.contains("Margherita"));
-			assertTrue(output.contains("Pepperoni"));
-			assertTrue(output.contains("800"));
-			assertTrue(output.contains("950"));
+		String output = getOutput();
+		assertTrue(output.contains("Margherita"));
+		assertTrue(output.contains("Pepperoni"));
+		assertTrue(output.contains("800"));
+		assertTrue(output.contains("950"));
 	}
 }

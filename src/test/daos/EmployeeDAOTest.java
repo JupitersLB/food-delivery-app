@@ -15,17 +15,17 @@ public class EmployeeDAOTest extends AbstractDAOTest {
 	private EmployeeDAO employeeDAO;
 
 	@BeforeEach
-  @Override
-  void setUp() throws Exception {
-    super.setUp();
-    employeeDAO = new EmployeeDAO(connection);
-    DatabaseUtils.seedEmployeesData(connection);
-  }
+	@Override
+	void setUp() throws Exception {
+		super.setUp();
+		employeeDAO = new EmployeeDAO(connection);
+		DatabaseUtils.seedEmployeesData(connection);
+	}
 
 	@AfterEach
 	void tearDown() throws Exception {
 		if (connection != null) {
-				connection.close();
+			connection.close();
 		}
 	}
 
