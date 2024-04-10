@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 import com.fooddelivery.models.Meal;
-import com.fooddelivery.utils.DatabaseUtils;
+import com.fooddelivery.utils.DataSeeder;
 import com.fooddelivery.daos.MealDAO;
 
 public class MealDAOTest extends AbstractDAOTest {
@@ -16,7 +16,7 @@ public class MealDAOTest extends AbstractDAOTest {
 	void setUp() throws Exception {
 		super.setUp();
 		mealDAO = new MealDAO(connection);
-		DatabaseUtils.seedMealsData(connection);
+		DataSeeder.seedMealsData(connection);
 	}
 
 	@Test

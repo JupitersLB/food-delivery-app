@@ -4,7 +4,6 @@
 SRC_DIR="./src/main/java/com/fooddelivery"
 TEST_SRC_DIR="./src/test"
 OUT_DIR="./out"
-DB_DIR="./data"
 DB_NAME="test.db"
 
 # JAR paths
@@ -29,18 +28,18 @@ find "${SRC_DIR}/utils" -type f -name "*.java" | xargs javac -d "${OUT_DIR}" -cp
 compile_and_test() {
     local component_path=$1
     # Compile related source files
-    find "${SRC_DIR}/${component_path}" -type f -name "${ENTITY}*.java" -exec javac -d "${OUT_DIR}" -cp "${CLASSPATH}" {} +
+    find "${SRC_DIR}/${component_path}s" -type f -name "${ENTITY}*.java" -exec javac -d "${OUT_DIR}" -cp "${CLASSPATH}" {} +
 
     # Compile abstract test classes
-    find "${TEST_SRC_DIR}/${component_path}" -type f -name "Abstract*.java" -exec javac -d "${OUT_DIR}" -cp "${CLASSPATH}" {} +
+    find "${TEST_SRC_DIR}/${component_path}s" -type f -name "Abstract*.java" -exec javac -d "${OUT_DIR}" -cp "${CLASSPATH}" {} +
 
     # Compile related test files
-    find "${TEST_SRC_DIR}/${component_path}" -type f -name "${ENTITY}*Test.java" -exec javac -d "${OUT_DIR}" -cp "${CLASSPATH}" {} +
+    find "${TEST_SRC_DIR}/${component_path}s" -type f -name "${ENTITY}*Test.java" -exec javac -d "${OUT_DIR}" -cp "${CLASSPATH}" {} +
 }
 
 if [ -z "$COMPONENT" ]; then
     # No component specified, compile and test for all components
-    for component in models daos controllers; do  # Adjust these component names as per your project structure
+    for component in model dao controller; do  # Adjust these component names as per your project structure
         compile_and_test "$component"
     done
 else
@@ -49,5 +48,5 @@ else
 fi
 
 # Run the tests
-java -Ddb.name="${DB_DIR}/${DB_NAME}" -jar "${JUNIT_JAR}" --class-path "${CLASSPATH}" --scan-class-path
+java -Ddb.name="${DB_NAME}" -jar "${JUNIT_JAR}" --class-path "${CLASSPATH}" --scan-class-path
 

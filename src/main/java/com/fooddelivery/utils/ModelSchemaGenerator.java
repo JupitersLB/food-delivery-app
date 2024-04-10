@@ -1,6 +1,9 @@
 package com.fooddelivery.utils;
 
 import java.lang.reflect.Field;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,6 +22,22 @@ public class ModelSchemaGenerator {
 		typeMapping.put(Double.class, "REAL");
 		// Additional type mappings can be added here.
 	}
+
+	/**
+     * Generates and executes SQL statements to create tables based on the loaded model classes.
+     *
+     * @param connection the database connection.
+     * @throws SQLException if a database access error occurs or this method is called on a closed connection.
+     */
+    public static void generateSchemaForAllModels(Connection connection) throws SQLException {
+        for (Class<?> modelClass : ModelLoader.loadModelClasses()) {
+            String createTableSQL = createTableSQL(modelClass);
+            try (Statement stmt = connection.createStatement()) {
+                stmt.execute(createTableSQL);
+            }
+        }
+    }
+
 
 	/**
 	 * Generates a SQL CREATE TABLE statement for a given model class.

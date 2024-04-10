@@ -1,6 +1,8 @@
 package test.daos;
 
-import com.fooddelivery.utils.DatabaseUtils;
+import com.fooddelivery.utils.DatabaseConnectionManager;
+import com.fooddelivery.utils.ModelSchemaGenerator;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 
@@ -12,10 +14,12 @@ public abstract class AbstractDAOTest {
 
 	@BeforeEach
 	void setUp() throws Exception {
-		// Adjust connectToTestDatabase to ensure it correctly points to your test DB
-		DatabaseUtils.connectToDatabase();
-
+		DatabaseConnectionManager.getConnection();
 		connection = DriverManager.getConnection("jdbc:sqlite:data/test.db");
+		if (connection != null) {
+			System.out.println("connection!");
+			ModelSchemaGenerator.generateSchemaForAllModels(connection);
+		}
 	}
 
 	@AfterEach
