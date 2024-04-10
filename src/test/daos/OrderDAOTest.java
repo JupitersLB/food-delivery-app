@@ -1,9 +1,6 @@
 package test.daos;
 
-import com.fooddelivery.models.Customer;
-import com.fooddelivery.models.Employee;
-import com.fooddelivery.models.Meal;
-import com.fooddelivery.models.Order;
+import com.fooddelivery.models.*;
 import com.fooddelivery.utils.DataSeeder;
 import com.fooddelivery.daos.*;
 
